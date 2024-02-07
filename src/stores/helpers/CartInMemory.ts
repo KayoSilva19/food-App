@@ -10,5 +10,5 @@ export function add(products: ProductsCartProps[], newProduct: ProductProps) {
     : product)
   }
 
-  return [...products,{ ...newProduct, quantity: 1 }]
+  return [...products, { ...newProduct, quantity: 1 }]
 }
