@@ -1,5 +1,4 @@
 import { Link, LinkProps } from "expo-router";
-import { TouchableOpacityProps } from "react-native";
 
 type LinkButtonProps = LinkProps<string> & {
   title: string
