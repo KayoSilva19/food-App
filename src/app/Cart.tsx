@@ -8,13 +8,15 @@ import { formatCurrency } from "@/utils/functions/formatCurrency";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 import { useState } from "react";
-import { Alert, ScrollView, Text, View } from "react-native";
+import { Alert, ScrollView, Text, View, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Cart() {
   const [address, setAddress] = useState("")
   const cartStore = useCartStore()
   const navigation = useNavigation()
+
+  const PHONE_NUMBER = ""
 
   const total =  formatCurrency(cartStore.products.reduce((total, product) => total + product.price * product.quantity, 0))
 
@@ -51,7 +53,7 @@ export default function Cart() {
 
     cartStore.clear()
     navigation.goBack()
-    return message
+    return Linking.openURL(`https://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${message}`) 
 
   }
 
