@@ -1,4 +1,4 @@
- Status: Construindo 🚧
+ Status: Completo 🚀
 
 ## Food App
 O Food App é um aplicativo de cardápio que oferece aos clientes a facilidade de selecionar os pratos desejados. Ao concluir o pedido no aplicativo, a solicitação é automaticamente enviada para o WhatsApp do restaurante, agilizando o processo de compra e proporcionando uma experiência mais conveniente aos usuários.
@@ -13,9 +13,9 @@ O Food App é um aplicativo de cardápio que oferece aos clientes a facilidade d
 <br/>
 
 <center>
- <div><img src="./assets/images/Home.png" /> <img src="./assets/images/Product.png" /></center>
+ <div><img src="./assets/images/Home.png" /> <img src="./assets/images/Product.png" /></div>
 <br/>
-<div><img src="./assets/images/Cart.png" /></center>
+<div><img src="./assets/images/Cart.png" /></div>
 </center>
 <br/>
 <hr/>
@@ -27,6 +27,17 @@ O Food App é um aplicativo de cardápio que oferece aos clientes a facilidade d
  * Expo
  * clsx
  * typescript
+ * zustand
+ * async-storage
+
+<br/>
+<hr/>
+
+ ## Demonstração:
+ 
+<div>
+    <img src="./assets/images/app.gif" />
+</div>
 
 ## Instalação
   * Após a instalação do expo/React-Native em sua máquina
