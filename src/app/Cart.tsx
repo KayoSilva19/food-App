@@ -3,15 +3,57 @@ import { Header } from "@/components/Header";
 import { Input } from "@/components/Input";
 import { LinkButton } from "@/components/LinkButton";
 import { Product } from "@/components/Product";
-import { useCartStore } from "@/stores/CartStore";
+import { ProductsCartProps, useCartStore } from "@/stores/CartStore";
 import { formatCurrency } from "@/utils/functions/formatCurrency";
 import { Feather } from "@expo/vector-icons";
-import { ScrollView, Text, View } from "react-native";
+import { useNavigation } from "expo-router";
+import { useState } from "react";
+import { Alert, ScrollView, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Cart() {
+  const [address, setAddress] = useState("")
   const cartStore = useCartStore()
+  const navigation = useNavigation()
+
   const total =  formatCurrency(cartStore.products.reduce((total, product) => total + product.price * product.quantity, 0))
+
+  function handleProductRemove(product: ProductsCartProps) {
+    Alert.alert("Remover", `Deseja Remover ${product.title} do carrinho?`, [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Remover",
+        onPress: () => {
+          cartStore.remove(product.id)
+        },
+      }
+    ])
+  }
+
+  function handleToOrder() {
+    if(address.trim().length === 0) {
+      return Alert.alert("Pedido", "Informe os dados da entrega!")
+    } 
+
+    const products = cartStore.products.map((product) => 
+      `\n ${product.quantity} ${product.title}`
+    ).join("")
+
+    const message = `
+      🍔 NOVO PEDIDO
+      \n Entregar em: ${address}
+      ${products}
+      \n Valor Total: ${total}
+    `
+
+    cartStore.clear()
+    navigation.goBack()
+    return message
+
+  }
 
   return (
     <View className="flex-1 pt-8">
@@ -22,7 +64,10 @@ export default function Cart() {
         { cartStore.products.length > 0 ? (
           <View className="border-b border-slate-700">
             {cartStore.products.map((product) => (
-                <Product key={product.id} data={product} />
+                <Product 
+                  key={product.id} 
+                  data={product} 
+                  onPress={() => handleProductRemove(product)} />
             ))}
           </View>
         ) : (
@@ -36,13 +81,19 @@ export default function Cart() {
             <Text className="text-lime-400 text-2xl font-heading">{total}</Text>
           </View>
 
-          <Input placeholder="Informe o endereço de entrega com rua, bairro, CEP, número e complemento..."/>
+          <Input 
+            placeholder="Informe o endereço de entrega com rua, bairro, CEP, número e complemento..."
+            onChangeText={setAddress}
+            blurOnSubmit
+            onSubmitEditing={handleToOrder}
+            returnKeyType="next"
+          />
           </View>
         </ScrollView>
       </KeyboardAwareScrollView>
 
       <View className="p-5 gap-5">
-          <Button>
+          <Button onPress={handleToOrder}>
             <Button.Text>
               Enviar Pedido
             </Button.Text>
